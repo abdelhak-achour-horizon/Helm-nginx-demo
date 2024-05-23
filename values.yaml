@@ -1,0 +1,36 @@
+deployment:
+  name: nginx-demo-deployment
+  replicaCount: 2
+  ports:
+    name: http
+    containerPort: 80
+    protocol: TCP
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+image:
+  repository: nginx
+  tag: "1.16.0"
+  pullPolicy: IfNotPresent
+
+service:
+  protocol: TCP
+  name: nginx-demo-service
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+env:
+  name: dev 
+
+ingress:
+  name: nginx-demo-ingress
+  ingressClassName: nginx
+  host: abdelhakachour-nginx.horizon-workspaces.com
+  issuer: letsencrypt-prod
+  tlsSecret: abdelhakachour-nginx-tls
