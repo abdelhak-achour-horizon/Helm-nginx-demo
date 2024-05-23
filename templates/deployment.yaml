@@ -14,6 +14,10 @@ spec:
       labels:
         app: nginx
     spec:
+      volumes:
+      - name: {{ .Chart.Name }}-html-configmap
+        configMap:
+          name: {{ .Chart.Name }}-html-configmap
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -29,3 +33,6 @@ spec:
             limits:
               cpu: {{ .Values.deployment.resources.limits.cpu }}
               memory: {{ .Values.deployment.resources.limits.memory }}
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html
+            name: {{ .Chart.Name }}-html-configmap
